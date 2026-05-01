@@ -4,13 +4,14 @@
 
 This document defines the architectural shape selected for this repository. Its goal is to give AI coding agents and humans a stable base for implementation decisions, naming, boundaries, and trade-offs without implying that one architecture is mandatory for all MRL repositories.
 
-This project is **not** intended to be a full production rewrite of the current system. It is a **model laboratory** used to:
+Homefeed is **not** a generic file explorer replacement. It is a **local-first
+desktop model laboratory** used to:
 
-- refine business models currently represented on model hypothesis
-- isolate business rules from infrastructure concerns
-- simulate external dependencies locally
-- derive and validate use cases from frontend behavior
-- make rules executable, testable, inspectable, and easier to evolve
+- model a social layer over the local filesystem
+- preserve normal filesystem usability
+- keep workspace, metadata, index, feed, post, profile, import, search, and AI boundaries explicit
+- make local file organization behavior executable, testable, and inspectable
+- validate a Wails + SolidJS + Go + SQLite desktop shape
 
 ---
 
@@ -28,7 +29,9 @@ The MRL core defines:
 
 Implementation shape is selected through a pack.
 
-This repository currently adopts the `python_ddd_monolith` pack. Other repositories may instead adopt:
+This repository adopts the `polyglot_client_server` pack because Wails + SolidJS
++ Go spans a frontend runtime and a Go backend runtime. Other repositories may
+instead adopt:
 
 - `typescript_application`
 - `go_service`
@@ -41,7 +44,8 @@ If a repository changes pack, record the decision in `decisions.md` and update t
 
 ## Core Intent
 
-Within this repository, the system should behave like a **DDD-inspired modular monolith**.
+Within this repository, the system should behave like a **local desktop app with
+an explicit Go domain core and a SolidJS interface**.
 
 It should prefer:
 
@@ -51,7 +55,16 @@ It should prefer:
 - deterministic local simulation over distributed complexity
 - testability and inspectability over premature realism
 
-This project is a **refinement environment**, not a microservices platform.
+This project is a **local-first desktop app**, not a microservices platform.
+
+For Homefeed, the first architectural boundary to protect is:
+
+```text
+normal filesystem files != hidden metadata != SQLite operational index != AI suggestions
+```
+
+Do not let the app require proprietary storage before files remain accessible
+through normal Linux tools.
 
 That statement is local to this selected pack. MRL as a workflow does not require a modular monolith and can support multi-process or multi-runtime systems when the model requires them.
 
@@ -68,35 +81,30 @@ Interfaces/API Facade -> Use Cases -----------------> Repositories (ports)
                                           ---------> External APIs (ports)
 ```
 
-A more explicit view:
+A more explicit target view:
 
 ```text
-src/app/
+app/
+frontend/
+internal/
   domain/
-    models/
-    services/
-    events/
-    value_objects/
-
-  application/
-    use_cases/
-    ports/
-    dto/
-
-  interfaces/
-    api_facade/
-
-  infrastructure/
-    sqlite/
-    repositories/
-    message_bus/
-    fakes/
-    clock/
-    ids/
-
+  workspace/
+  feeds/
+  profiles/
+  posts/
+  files/
+  imports/
+  index/
+  search/
+  comments/
+  tags/
+  agent/
+  jobs/
+  config/
+  logging/
+migrations/
 tests/
-  unit/
-  integration/
+  ...
 ```
 
 This is a pack-specific example, not a required layout for every MRL repository.
@@ -218,23 +226,24 @@ The frontend may inspire workflows, but implementation should be organized aroun
 
 Examples:
 
-- `CreateCart`
-- `AddItemToCart`
-- `PlaceOrder`
-- `RequestReturn`
-- `CancelOrder`
+- `InitializeWorkspace`
+- `CreatePost`
+- `ImportFiles`
+- `AssignOwner`
+- `RequestAgentSuggestion`
 
 ### 3. Ports and adapters
 External dependencies must be behind ports.
 
 Typical ports:
 
-- `OrderRepository`
-- `CartRepository`
-- `MessageBus`
+- `FeedRepository`
+- `PostRepository`
+- `ProfileRepository`
+- `FileStore`
 - `Clock`
 - `IdGenerator`
-- `InventoryGateway`
+- `AgentGateway`
 - `PricingGateway`
 
 This allows infrastructure replacement without changing the model.

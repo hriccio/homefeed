@@ -39,6 +39,54 @@ Any additional implementation guidance, migration note, or follow-up.
 
 Add entries as the repository evolves.
 
+## DEC-0013 - Adopt Homefeed As The Project Identity
+
+- Date: 2026-05-01
+- Status: accepted
+- Owners: both
+
+### Context
+This repository was created from `wastingnotime/mrl-starter` to support a
+local-first social file manager for Linux desktop.
+
+The source context selects Wails + SolidJS + Go + SQLite and defines the core
+product boundary: the filesystem remains usable without the app, while Homefeed
+adds feed, post, profile, comment, import, search, and AI-assistance layers.
+
+### Decision
+The adopting repository is named `homefeed`.
+
+It will model a local-first desktop app with:
+
+- normal files under `~/Homefeed`
+- hidden metadata and SQLite under `~/Homefeed/.homefeed`
+- folders as feeds
+- posts as the primary user-facing unit
+- owners/profiles and comments as local context
+- AI suggestions separated from user-confirmed metadata
+
+The repository adopts the `polyglot_client_server` pack because the selected
+implementation has a SolidJS frontend and Go/Wails backend runtime.
+
+### Consequences
+The repository now has project-specific README, semantic, source, and first
+slice artifacts. Future Codex sessions should treat the copied starter material
+as workflow infrastructure, not as the Homefeed domain.
+
+The first implementation should establish workspace and database initialization
+before import, search, and AI behavior.
+
+### Alternatives considered
+Use the starter's default `python_ddd_monolith` pack. This was rejected because
+the chosen runtime is Wails + SolidJS + Go + SQLite.
+
+Start with full Wails UI implementation immediately. This was deferred because
+the first slice needs the filesystem and persistence foundation before broad UI
+work.
+
+### Notes
+The original handoff file is preserved under `work/sources/initial_handoff/`.
+
 ## DEC-0001 - Separate MRL Core From Implementation Packs
 
 - Date: 2026-03-29
@@ -54,7 +102,8 @@ The repository now distinguishes between:
 - MRL core, which stays artifact-driven and architecture-agnostic
 - implementation packs, which define language, architecture, structure, and testing defaults
 
-The current repository keeps `python_ddd_monolith` as the example selected pack.
+This repository selects `polyglot_client_server` for Homefeed. Other adopting
+repositories may choose different packs.
 
 ### Consequences
 It becomes easier to reuse the same refinement workflow across Python, JavaScript, Go, event-sourced, and polyglot client/server repositories. It also becomes necessary to make the selected pack explicit in architecture docs and slice docs.

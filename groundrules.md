@@ -12,13 +12,18 @@ These rules should be treated as default constraints unless a deliberate archite
 
 ## Primary Objective
 
-The objective of this project is to **refine business models** and make business behavior executable, testable, and inspectable.
+The objective of this project is to make Homefeed's local filesystem, feed,
+post, profile, import, search, and AI-assistance behavior executable,
+testable, and inspectable.
 
-This is **not** a production rewrite, infrastructure exercise, or framework showcase.
+This is **not** a cloud sync product, production infrastructure exercise, or
+framework showcase.
 
 Every implementation choice should be evaluated by asking:
 
-- does this clarify business behavior?
+- does this preserve normal filesystem usability?
+- does this keep visible folders free of metadata pollution?
+- does this clarify feed, post, profile, import, search, or AI-assistance behavior?
 - does this improve testability?
 - does this reduce accidental complexity?
 - does this preserve inspectability?
@@ -101,14 +106,14 @@ Avoid generic “manager”, “processor”, or “service” classes that accu
 
 Good examples:
 
-- `PlaceOrder`
-- `AddItemToCart`
-- `CancelOrder`
-- `RequestReturn`
+- `InitializeWorkspace`
+- `ImportFiles`
+- `CreatePost`
+- `AddComment`
 
 Bad examples:
 
-- `CheckoutManager`
+- `FileManager`
 - `BusinessLogicService`
 - `GeneralProcessor`
 
@@ -428,4 +433,3 @@ The default posture for this project is:
 - explicit code over clever code
 
 When unsure, optimize for clarity and model quality, not for production mimicry.
-

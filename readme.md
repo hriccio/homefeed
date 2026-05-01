@@ -1,91 +1,59 @@
-# MRL Starter
+# Homefeed
 
-## Purpose
+Homefeed is a local-first social file manager for Linux desktop.
 
-This repository is a starter template for the Model Refinement Lab.
+It turns normal filesystem artifacts into feed-like posts with owners, profiles,
+comments, tags, import history, search, and an AI-assistance boundary. The
+filesystem remains usable without the app; Homefeed must not lock files into a
+proprietary database.
 
-Use it to begin a new repository that follows the MRL loop:
+## Governing Sentence
 
-```text
-extract -> refine -> build -> egd -> release -> expose -> feedback -> extract
-```
+Files remain normal files. Homefeed adds a social layer over the local
+filesystem.
 
-This starter separates:
+## Initial Target
 
-- MRL core: the artifact-driven refinement loop and workflow
-- implementation packs: selectable language and architecture defaults
+- platform: Linux Mint 21.3
+- app type: desktop app
+- stack: Wails + SolidJS + Go + SQLite
+- workspace: `~/Homefeed`
+- metadata root: `~/Homefeed/.homefeed`
 
-The repository currently includes `python_ddd_monolith` as the example selected pack. If you want another shape such as Terraform-managed AWS infrastructure, Go, TypeScript, event sourcing, or a multi-runtime client/server system, keep the MRL core and replace the pack guidance intentionally.
+## Initial Sources
 
-One of the repository's main characteristics is that pre-defined packs can be used to scaffold new MRL projects. That lets adopters keep the same refinement workflow while starting from a language and architecture shape that already fits their context.
+Original handoff material is preserved under:
 
-MRL itself is AI-agent-friendly rather than tool-specific, but this starter is currently optimized for Codex-style repository workflows. It can still be used well with other AI coding agents when they operate from explicit repository artifacts instead of conversational memory.
+- `work/sources/initial_handoff/homefeed-codex-handoff.md`
 
----
+Start extraction from that file, then refine the model into repository artifacts
+before implementing code.
 
-## Getting Started
+## Initial Product Shape
 
-Clone the starter into the new repository name you want:
+Homefeed should support:
 
-```bash
-git clone <starter-url> my-new-project
-cd my-new-project
-```
+- folders as feeds
+- a unified main feed
+- posts that reference files, notes, links, folders, summaries, references, and comments
+- owners and auto-created profiles
+- comments as local context metadata
+- file and folder import into the workspace
+- search over posts and metadata
+- an AI-agent interface that can suggest, summarize, classify, and answer without moving or deleting files automatically
 
-The preferred way to start a new project is to use this repository as a GitHub template, not as a fork. Forking is more appropriate when working on the starter itself or maintaining a derivative starter.
+## MRL Usage
 
-Then read these files first:
+This repository was created from `wastingnotime/mrl-starter`.
 
+Read these files before substantial work:
+
+- `AGENTS.md`
 - `docs/operating/mrl_reference.md`
 - `docs/operating/skills_workflow.md`
-- `docs/operating/packs.md`
-- `docs/operating/best_practices.md`
-- `architecture.md`
-- `groundrules.md`
-- `docs/building/project_structure.md`
+- `docs/semantics/model_hypothesis.md`
+- `docs/semantics/domain_background_knowledge.md`
+- `docs/slices/0001-workspace-and-database.md`
 
-Before writing substantial project-specific code, decide whether the adopting repository will keep the starter's default license or intentionally replace it with another license or a split-license model. Record that choice clearly in the root `LICENSE` and `decisions.md`.
-
-Then start the loop:
-
-1. run `extract` to build the first semantic baseline in `docs/semantics/`
-2. run `refine` to define the first request-to-slice map and slice
-3. run `build` to implement one vertical slice
-4. run `egd` to review the built behavior against the request
-
-Use `adoption-diagnose` when you want to check whether the copied starter has been intentionally adopted, especially around licensing, README content, pack selection, and placeholder artifacts. Use `guidance` when the repository owner needs help understanding MRL phases or artifacts without changing files.
-
-The semantic placeholders in `docs/semantics/` are intentionally empty. They are meant to be filled by the `extract` phase, not by copying domain content from this starter.
-Preserve original evidence in `work/sources/` before extraction or refinement artifacts are produced elsewhere.
-
-For repositories that expect to use `expose`, released artifacts should normally be packaged in a portable runtime form, with a container image as the default. That packaging rule belongs to MRL operating guidance rather than to any specific adopting repository's domain semantics.
-
----
-
-## Starter Layout
-
-```text
-.agents/skills/            # repo-local MRL skills
-/docs/operating/           # MRL model and workflow docs
-/docs/packs/               # implementation pack definitions
-/docs/building/            # structure and bootstrap guidance
-/docs/evaluation/          # expectation-gap evaluation guidance
-/docs/semantics/           # domain-specific meaning created by extract
-/docs/slices/              # one slice document per increment
-/work/sources/             # canonical folder for curated raw evidence and original source material
-/work/changes/             # request, impact, and implementation artifacts
-/work/adoption_diagnosis.md # optional adoption readiness report
-/src/                      # implementation root shaped by the selected pack
-/tests/                    # executable specification
-```
-
----
-
-## Notes
-
-- Treat this repository as a template, not as a finished application.
-- Keep domain specifics out of the starter and in the adopting repository.
-- Keep the MRL loop generic and move language or architecture assumptions into packs.
-- Make licensing an explicit adoption choice; the starter can be reused under one license or adapted into a split-license repository when process material and implementation code need different terms.
-- Treat `work/` as repository memory, not scratch space; preserve original evidence in `work/sources/` before downstream artifacts are created.
-- Prefer one small slice over broad scaffolding.
+Recommended next phase: run `extract` from the initial handoff source, then run
+`refine` for the first minimal slice.
