@@ -7,6 +7,7 @@ package desktop
 import (
 	"context"
 
+	"homefeed/internal/imports"
 	"homefeed/internal/workspace"
 )
 
@@ -34,6 +35,12 @@ func (a *App) Shutdown(ctx context.Context) {}
 // InitializeWorkspace runs the existing workspace initializer.
 func (a *App) InitializeWorkspace() (workspace.Result, error) {
 	return workspace.Initialize(a.workspaceRoot)
+}
+
+// ImportFolder copies a local folder into the workspace and records the batch.
+func (a *App) ImportFolder(sourcePath, feedSlug string) (imports.Result, error) {
+	service := imports.NewService(workspace.LayoutForRoot(a.workspaceRoot))
+	return service.ImportFolder(sourcePath, feedSlug)
 }
 
 // WorkspaceRoot returns the configured workspace root.

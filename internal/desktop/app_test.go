@@ -5,10 +5,12 @@
 package desktop_test
 
 import (
+	"os"
 	"path/filepath"
 	"testing"
 
 	"homefeed/internal/desktop"
+	"homefeed/internal/workspace"
 )
 
 func TestInitializeWorkspaceBridgeUsesConfiguredRoot(t *testing.T) {
@@ -30,5 +32,35 @@ func TestInitializeWorkspaceBridgeUsesConfiguredRoot(t *testing.T) {
 
 	if len(result.Feeds) != 5 {
 		t.Fatalf("feed count = %d, want 5", len(result.Feeds))
+	}
+}
+
+func TestImportFolderBridgeCopiesIntoSelectedFeed(t *testing.T) {
+	root := filepath.Join(t.TempDir(), "Homefeed")
+	if _, err := workspace.Initialize(root); err != nil {
+		t.Fatalf("initialize workspace: %v", err)
+	}
+
+	source := filepath.Join(t.TempDir(), "bridge-import")
+	if err := os.MkdirAll(filepath.Join(source, "nested"), 0o755); err != nil {
+		t.Fatalf("create source tree: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(source, "notes.txt"), []byte("bridge import"), 0o644); err != nil {
+		t.Fatalf("write source file: %v", err)
+	}
+
+	app := desktop.NewApp(root)
+	result, err := app.ImportFolder(source, "projects")
+	if err != nil {
+		t.Fatalf("import folder: %v", err)
+	}
+
+	wantDestination := filepath.Join(root, "projects", filepath.Base(source))
+	if result.DestinationPath != wantDestination {
+		t.Fatalf("destination path = %q, want %q", result.DestinationPath, wantDestination)
+	}
+
+	if _, err := os.Stat(filepath.Join(wantDestination, "notes.txt")); err != nil {
+		t.Fatalf("imported file missing: %v", err)
 	}
 }

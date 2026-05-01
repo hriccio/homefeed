@@ -49,6 +49,34 @@ body {
   gap: 16px;
 }
 
+.control h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.control label {
+  display: grid;
+  gap: 0.45rem;
+  color: #c9d1d9;
+  font-size: 0.94rem;
+}
+
+.control input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(125, 133, 145, 0.28);
+  border-radius: 14px;
+  background: rgba(2, 6, 12, 0.72);
+  color: #e6edf3;
+  padding: 0.85rem 1rem;
+  font: inherit;
+}
+
+.control input:focus {
+  outline: 2px solid rgba(84, 216, 255, 0.75);
+  outline-offset: 2px;
+}
+
 .eyebrow {
   margin: 0;
   text-transform: uppercase;
@@ -100,4 +128,3 @@ pre {
   background: rgba(2, 6, 12, 0.72);
   color: #d1d7e0;
 }
-

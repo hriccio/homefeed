@@ -18,4 +18,13 @@ CREATE TABLE IF NOT EXISTS feeds (
     updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS import_batches (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    source_path TEXT NOT NULL,
+    feed_slug TEXT NOT NULL,
+    feed_path TEXT NOT NULL,
+    destination_path TEXT NOT NULL UNIQUE,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 INSERT OR IGNORE INTO schema_migrations(version) VALUES (1);

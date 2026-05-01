@@ -8,7 +8,7 @@
 
 | Slice | Status | Coverage | Acceptance Evidence |
 | --- | --- | --- | --- |
-| `docs/slices/0005-local-folder-import.md` | planned | the first copy-import workflow for a selected local folder, including import batch metadata, copied workspace files, and hidden metadata placement | a deterministic local scenario that imports a sample folder and proves the copy, metadata, and clean visible folder rules |
+| `docs/slices/0005-local-folder-import.md` | built | the first copy-import workflow for a selected local folder, including import batch metadata, copied workspace files, and hidden metadata placement | a deterministic local scenario that imports a sample folder and proves the copy, metadata, and clean visible folder rules |
 
 ## Out Of Scope
 

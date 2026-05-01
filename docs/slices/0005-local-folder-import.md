@@ -2,7 +2,7 @@
 
 ## Status
 
-Planned.
+Built.
 
 ## Pack
 
@@ -97,3 +97,5 @@ folder into the workspace, and record the import in hidden metadata.
 - keep the slice narrow enough to implement as a single import path
 - prefer explicit use-case naming over generic file manager logic
 - preserve the current startup and shell behavior while adding import
+- the import workflow now uses a Go service and Wails bridge, with hidden
+  import batch records stored in SQLite

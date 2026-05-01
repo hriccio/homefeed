@@ -6,6 +6,10 @@ declare global {
       main?: {
         App?: {
           InitializeWorkspace: () => Promise<unknown>;
+          ImportFolder: (
+            sourcePath: string,
+            feedSlug: string,
+          ) => Promise<unknown>;
         };
       };
     };
@@ -13,4 +17,3 @@ declare global {
 }
 
 export {};
-

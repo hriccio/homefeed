@@ -6,8 +6,13 @@
 
 ## Status
 
-Pending.
+Built.
 
 ## Notes
 
-This slice has not been built yet.
+- added a Go `ImportFolder` use case in `internal/imports`
+- stored import batch records in SQLite under the hidden workspace metadata
+  root
+- wired the import workflow through the desktop bridge and SolidJS frontend
+- added deterministic tests for folder copying, batch metadata, and bridge
+  wiring

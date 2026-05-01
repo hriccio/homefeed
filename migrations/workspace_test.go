@@ -15,8 +15,8 @@ func TestWorkspaceStatementsLoadsCanonicalArtifact(t *testing.T) {
 		t.Fatalf("load statements: %v", err)
 	}
 
-	if len(statements) != 4 {
-		t.Fatalf("statement count = %d, want 4", len(statements))
+	if len(statements) != 5 {
+		t.Fatalf("statement count = %d, want 5", len(statements))
 	}
 
 	if !strings.HasPrefix(statements[0], "PRAGMA foreign_keys") {
