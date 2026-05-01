@@ -26,4 +26,15 @@ func TestWorkspaceStatementsLoadsCanonicalArtifact(t *testing.T) {
 	if !strings.Contains(statements[len(statements)-1], "INSERT OR IGNORE INTO schema_migrations") {
 		t.Fatalf("last statement = %q, want schema migration insert", statements[len(statements)-1])
 	}
+
+	foundImportBatch := false
+	for _, statement := range statements {
+		if strings.Contains(statement, "CREATE TABLE IF NOT EXISTS import_batches") {
+			foundImportBatch = true
+			break
+		}
+	}
+	if !foundImportBatch {
+		t.Fatal("workspace migration does not define import_batches")
+	}
 }

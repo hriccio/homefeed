@@ -68,10 +68,6 @@ func (s *Service) ImportFolder(sourcePath, feedSlug string) (Result, error) {
 	}
 	defer db.Close()
 
-	if err := ensureImportBatchSchema(db); err != nil {
-		return Result{}, err
-	}
-
 	feedPath, err := lookupFeedPath(db, feedSlug)
 	if err != nil {
 		return Result{}, err
@@ -133,24 +129,6 @@ func openDatabase(path string) (*sql.DB, error) {
 	}
 
 	return db, nil
-}
-
-func ensureImportBatchSchema(db *sql.DB) error {
-	_, err := db.Exec(`
-CREATE TABLE IF NOT EXISTS import_batches (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    source_path TEXT NOT NULL,
-    feed_slug TEXT NOT NULL,
-    feed_path TEXT NOT NULL,
-    destination_path TEXT NOT NULL UNIQUE,
-    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-`)
-	if err != nil {
-		return fmt.Errorf("ensure import batch schema: %w", err)
-	}
-
-	return nil
 }
 
 func lookupFeedPath(db *sql.DB, feedSlug string) (string, error) {
