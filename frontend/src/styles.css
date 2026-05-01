@@ -1,0 +1,103 @@
+:root {
+  color-scheme: dark;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(126, 231, 135, 0.16), transparent 34%),
+    radial-gradient(circle at top right, rgba(84, 216, 255, 0.16), transparent 30%),
+    linear-gradient(180deg, #05070a 0%, #0d1117 55%, #0a0d12 100%);
+  color: #e6edf3;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  display: grid;
+  place-items: center;
+}
+
+#root {
+  width: 100%;
+}
+
+.shell {
+  width: min(920px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 40px 0;
+  display: grid;
+  gap: 20px;
+}
+
+.panel {
+  border: 1px solid rgba(125, 133, 145, 0.28);
+  border-radius: 24px;
+  background: rgba(10, 14, 20, 0.76);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(18px);
+}
+
+.hero {
+  padding: 28px 28px 18px;
+}
+
+.control {
+  padding: 24px 28px 28px;
+  display: grid;
+  gap: 16px;
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-size: 12px;
+  color: #7ee787;
+}
+
+h1 {
+  margin: 10px 0 0;
+  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  line-height: 0.95;
+}
+
+.lede {
+  margin: 12px 0 0;
+  max-width: 60ch;
+  color: #9da7b3;
+  font-size: 1.02rem;
+}
+
+button {
+  width: fit-content;
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 18px;
+  font: inherit;
+  font-weight: 700;
+  color: #071018;
+  background: linear-gradient(135deg, #7ee787 0%, #54d8ff 100%);
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.75;
+  cursor: progress;
+}
+
+.status {
+  margin: 0;
+  color: #c9d1d9;
+}
+
+pre {
+  margin: 0;
+  padding: 18px;
+  border-radius: 18px;
+  overflow: auto;
+  background: rgba(2, 6, 12, 0.72);
+  color: #d1d7e0;
+}
+
