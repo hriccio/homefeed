@@ -2,7 +2,7 @@
 
 ## Status
 
-Ready for build.
+Built.
 
 ## Pack
 
@@ -122,8 +122,9 @@ files.
 
 - `work/sources/initial_handoff/homefeed-codex-handoff.md`
 
-## Open Design Decisions
+## Implementation Notes
 
-- whether the first executable surface should be a Wails app command, a Go CLI scenario, or both
-- whether migrations should be embedded Go files or SQL files under `migrations/`
-- whether default workspace path should be configurable before the settings UI exists
+- the first executable surface is a Go CLI scenario at `app/cli/homefeed-init`
+- migrations are represented as SQL files under `migrations/`
+- the default workspace path is not configurable in this slice; the CLI uses the
+  current user's home directory plus `/Homefeed`
