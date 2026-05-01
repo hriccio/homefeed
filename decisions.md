@@ -39,6 +39,53 @@ Any additional implementation guidance, migration note, or follow-up.
 
 Add entries as the repository evolves.
 
+## DEC-0014 - Split Repository Licensing Between MRL And Homefeed Artifacts
+
+- Date: 2026-05-01
+- Status: accepted
+- Owners: both
+
+### Context
+This repository contains two kinds of material with different reuse intent:
+
+- MRL workflow and repository-infrastructure artifacts that should remain
+  reusable as starter material
+- Homefeed project-specific artifacts and implementation assets that should be
+  governed separately from the workflow scaffolding
+
+The existing single-license setup did not make that distinction explicit.
+
+### Decision
+The repository now uses a split-license model:
+
+- MRL process, workflow, and repository-infrastructure material is licensed
+  under the MIT License.
+- Homefeed project-specific material and implementation assets are licensed
+  under the Mozilla Public License 2.0 (MPL 2.0).
+
+The root `LICENSE` file now serves as a scope summary, and the full license texts
+live under `LICENSES/`.
+
+### Consequences
+Future contributors can tell which repository content is intended to stay
+starter-friendly and which content is intended to follow the MPL 2.0 sharing
+terms.
+
+Project-specific files such as `readme.md`, semantic artifacts, slice documents,
+code, tests, runtime assets, and project-specific evidence or change artifacts
+under `work/` should follow the MPL 2.0 scope unless a file notice says
+otherwise. Reusable MRL workflow material, including reusable templates under
+`work/changes/_template/`, should remain under MIT.
+
+### Alternatives considered
+Keep a single MIT license for the entire repository. This was rejected because it
+did not express the intended split between reusable workflow material and the
+Homefeed project artifacts.
+
+### Notes
+If future files need a different scope, they should carry an explicit file-level
+notice so the repository-level summary stays unambiguous.
+
 ## DEC-0013 - Adopt Homefeed As The Project Identity
 
 - Date: 2026-05-01

@@ -57,3 +57,14 @@ Read these files before substantial work:
 
 Recommended next phase: run `extract` from the initial handoff source, then run
 `refine` for the first minimal slice.
+
+## Licensing
+
+This repository uses a split-license model.
+
+- MRL process, workflow, and repository-infrastructure material is licensed
+  under MIT.
+- Homefeed project-specific material and implementation assets are licensed
+  under MPL 2.0.
+
+See `LICENSE` for the scope summary and `LICENSES/` for the full license texts.
