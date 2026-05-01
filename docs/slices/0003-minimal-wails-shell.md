@@ -2,7 +2,7 @@
 
 ## Status
 
-Ready for build.
+Built.
 
 ## Pack
 
@@ -90,3 +90,9 @@ surface the result in a minimal desktop context.
 - the workspace foundation still behaves as proven in earlier slices
 - the shell remains minimal and does not absorb later product work
 
+## Implementation Notes
+
+- the Wails entrypoint lives in the repository root behind the `wails` build tag
+- the default build uses a stub `main` so the repository remains testable without
+  desktop-specific runtime dependencies
+- the frontend assets live under `frontend/dist`
