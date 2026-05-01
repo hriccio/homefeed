@@ -2,7 +2,7 @@
 
 ## Status
 
-Ready for build.
+Built.
 
 ## Pack
 
@@ -97,3 +97,9 @@ from the migration artifact rather than repeating it inline.
 - the migration artifact remains the repository-visible source of truth
 - tests continue to prove idempotent first-run initialization
 
+## Implementation Notes
+
+- the canonical schema lives in `migrations/0001_create_workspace.sql`
+- the runtime loader is implemented in `migrations/workspace.go`
+- the workspace initializer consumes the migration package rather than owning
+  its own schema copy
