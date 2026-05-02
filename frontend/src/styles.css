@@ -72,6 +72,24 @@ body {
   font: inherit;
 }
 
+.control textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(125, 133, 145, 0.28);
+  border-radius: 14px;
+  background: rgba(2, 6, 12, 0.72);
+  color: #e6edf3;
+  padding: 0.85rem 1rem;
+  font: inherit;
+  resize: vertical;
+  min-height: 140px;
+}
+
+.control textarea:focus {
+  outline: 2px solid rgba(84, 216, 255, 0.75);
+  outline-offset: 2px;
+}
+
 .control input:focus {
   outline: 2px solid rgba(84, 216, 255, 0.75);
   outline-offset: 2px;

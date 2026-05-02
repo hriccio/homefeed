@@ -8,6 +8,7 @@ import (
 	"context"
 
 	"homefeed/internal/imports"
+	"homefeed/internal/posts"
 	"homefeed/internal/workspace"
 )
 
@@ -41,6 +42,12 @@ func (a *App) InitializeWorkspace() (workspace.Result, error) {
 func (a *App) ImportFolder(sourcePath, feedSlug string) (imports.Result, error) {
 	service := imports.NewService(workspace.LayoutForRoot(a.workspaceRoot))
 	return service.ImportFolder(sourcePath, feedSlug)
+}
+
+// CreateNotePost creates a note file in the selected feed and records the post.
+func (a *App) CreateNotePost(feedSlug, title, body string) (posts.Result, error) {
+	service := posts.NewService(workspace.LayoutForRoot(a.workspaceRoot))
+	return service.CreateNotePost(feedSlug, title, body)
 }
 
 // WorkspaceRoot returns the configured workspace root.

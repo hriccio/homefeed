@@ -15,8 +15,8 @@ func TestWorkspaceStatementsLoadsCanonicalArtifact(t *testing.T) {
 		t.Fatalf("load statements: %v", err)
 	}
 
-	if len(statements) != 5 {
-		t.Fatalf("statement count = %d, want 5", len(statements))
+	if len(statements) != 6 {
+		t.Fatalf("statement count = %d, want 6", len(statements))
 	}
 
 	if !strings.HasPrefix(statements[0], "PRAGMA foreign_keys") {
@@ -28,13 +28,19 @@ func TestWorkspaceStatementsLoadsCanonicalArtifact(t *testing.T) {
 	}
 
 	foundImportBatch := false
+	foundPosts := false
 	for _, statement := range statements {
 		if strings.Contains(statement, "CREATE TABLE IF NOT EXISTS import_batches") {
 			foundImportBatch = true
-			break
+		}
+		if strings.Contains(statement, "CREATE TABLE IF NOT EXISTS posts") {
+			foundPosts = true
 		}
 	}
 	if !foundImportBatch {
 		t.Fatal("workspace migration does not define import_batches")
+	}
+	if !foundPosts {
+		t.Fatal("workspace migration does not define posts")
 	}
 }

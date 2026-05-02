@@ -2,7 +2,7 @@
 
 ## Status
 
-Planned.
+Built.
 
 ## Pack
 
@@ -99,3 +99,5 @@ record in SQLite-backed hidden metadata.
 - prefer explicit use-case naming over generic note manager logic
 - preserve the current startup, import, and shell behavior while adding note
   creation
+- note posts now use a Go `CreateNotePost` use case, SQLite-backed post
+  records, and a minimal SolidJS note form

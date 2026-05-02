@@ -27,4 +27,15 @@ CREATE TABLE IF NOT EXISTS import_batches (
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS posts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    kind TEXT NOT NULL,
+    feed_slug TEXT NOT NULL,
+    feed_path TEXT NOT NULL,
+    title TEXT NOT NULL,
+    body TEXT NOT NULL,
+    path TEXT NOT NULL UNIQUE,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 INSERT OR IGNORE INTO schema_migrations(version) VALUES (1);

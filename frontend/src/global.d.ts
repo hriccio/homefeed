@@ -10,6 +10,11 @@ declare global {
             sourcePath: string,
             feedSlug: string,
           ) => Promise<unknown>;
+          CreateNotePost: (
+            feedSlug: string,
+            title: string,
+            body: string,
+          ) => Promise<unknown>;
         };
       };
     };

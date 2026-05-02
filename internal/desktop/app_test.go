@@ -64,3 +64,25 @@ func TestImportFolderBridgeCopiesIntoSelectedFeed(t *testing.T) {
 		t.Fatalf("imported file missing: %v", err)
 	}
 }
+
+func TestCreateNotePostBridgeCreatesNoteFile(t *testing.T) {
+	root := filepath.Join(t.TempDir(), "Homefeed")
+	if _, err := workspace.Initialize(root); err != nil {
+		t.Fatalf("initialize workspace: %v", err)
+	}
+
+	app := desktop.NewApp(root)
+	result, err := app.CreateNotePost("projects", "Bridge Note", "bridge body")
+	if err != nil {
+		t.Fatalf("create note post: %v", err)
+	}
+
+	wantPath := filepath.Join(root, "projects", "bridge-note.md")
+	if result.Path != wantPath {
+		t.Fatalf("note path = %q, want %q", result.Path, wantPath)
+	}
+
+	if _, err := os.Stat(wantPath); err != nil {
+		t.Fatalf("note file missing: %v", err)
+	}
+}

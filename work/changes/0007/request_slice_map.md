@@ -8,7 +8,7 @@
 
 | Slice | Status | Coverage | Acceptance Evidence |
 | --- | --- | --- | --- |
-| `docs/slices/0007-create-note-post.md` | planned | the first note-post workflow, including note file creation in a selected feed, hidden post metadata, and a minimal desktop trigger | a deterministic local scenario that creates a note and proves the file, metadata, and clean visible folder rules |
+| `docs/slices/0007-create-note-post.md` | built | the first note-post workflow, including note file creation in a selected feed, hidden post metadata, and a minimal desktop trigger | a deterministic local scenario that creates a note and proves the file, metadata, and clean visible folder rules |
 
 ## Out Of Scope
 

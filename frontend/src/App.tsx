@@ -19,6 +19,16 @@ type ImportResult = {
   destinationPath?: string;
 };
 
+type NoteResult = {
+  postId?: number;
+  kind?: string;
+  feedSlug?: string;
+  feedPath?: string;
+  title?: string;
+  body?: string;
+  path?: string;
+};
+
 function hasBridge() {
   return Boolean(window.go?.main?.App?.InitializeWorkspace);
 }
@@ -36,6 +46,14 @@ export function App() {
   const [importResult, setImportResult] = createSignal<ImportResult | null>(
     null,
   );
+  const [noteFeedSlug, setNoteFeedSlug] = createSignal("projects");
+  const [noteTitle, setNoteTitle] = createSignal("");
+  const [noteBody, setNoteBody] = createSignal("");
+  const [noteMessage, setNoteMessage] = createSignal(
+    "Write a note title and body to create a post.",
+  );
+  const [noteBusy, setNoteBusy] = createSignal(false);
+  const [noteResult, setNoteResult] = createSignal<NoteResult | null>(null);
 
   const initializeWorkspace = async () => {
     const bridge = window.go?.main?.App?.InitializeWorkspace;
@@ -92,6 +110,41 @@ export function App() {
     }
   };
 
+  const createNotePost = async () => {
+    const bridge = window.go?.main?.App?.CreateNotePost;
+    if (!bridge) {
+      setNoteMessage("Note bridge is unavailable in this runtime.");
+      return;
+    }
+
+    if (!noteFeedSlug().trim()) {
+      setNoteMessage("Choose a target feed slug first.");
+      return;
+    }
+
+    if (!noteTitle().trim()) {
+      setNoteMessage("Enter a note title first.");
+      return;
+    }
+
+    setNoteBusy(true);
+    setNoteMessage("Creating note...");
+
+    try {
+      const response = (await bridge(
+        noteFeedSlug().trim(),
+        noteTitle().trim(),
+        noteBody().trim(),
+      )) as NoteResult;
+      setNoteResult(response);
+      setNoteMessage("Note created.");
+    } catch (error) {
+      setNoteMessage(`Note creation failed: ${String(error)}`);
+    } finally {
+      setNoteBusy(false);
+    }
+  };
+
   onMount(() => {
     if (!hasBridge()) {
       setMessage("Desktop bridge not yet attached.");
@@ -104,8 +157,8 @@ export function App() {
         <p class="eyebrow">Homefeed</p>
         <h1>Minimal desktop shell</h1>
         <p class="lede">
-          The first SolidJS screen proves the workspace initializer and a
-          minimal folder import workflow through the Wails bridge without
+          The first SolidJS screen proves workspace initialization, folder
+          import, and note-post creation through the Wails bridge without
           adding search or AI behavior.
         </p>
       </section>
@@ -153,6 +206,51 @@ export function App() {
         <p class="status">{importMessage()}</p>
 
         <Show when={importResult()}>
+          {(value) => (
+            <pre>{JSON.stringify(value(), null, 2)}</pre>
+          )}
+        </Show>
+      </section>
+
+      <section class="panel control">
+        <h2>Create a note post</h2>
+        <label>
+          <span>Target feed slug</span>
+          <input
+            type="text"
+            value={noteFeedSlug()}
+            onInput={(event) => setNoteFeedSlug(event.currentTarget.value)}
+            placeholder="projects"
+          />
+        </label>
+
+        <label>
+          <span>Note title</span>
+          <input
+            type="text"
+            value={noteTitle()}
+            onInput={(event) => setNoteTitle(event.currentTarget.value)}
+            placeholder="Daily log"
+          />
+        </label>
+
+        <label>
+          <span>Note body</span>
+          <textarea
+            rows={6}
+            value={noteBody()}
+            onInput={(event) => setNoteBody(event.currentTarget.value)}
+            placeholder="Write the note body here."
+          />
+        </label>
+
+        <button type="button" onClick={createNotePost} disabled={noteBusy()}>
+          {noteBusy() ? "Creating..." : "Create note"}
+        </button>
+
+        <p class="status">{noteMessage()}</p>
+
+        <Show when={noteResult()}>
           {(value) => (
             <pre>{JSON.stringify(value(), null, 2)}</pre>
           )}
