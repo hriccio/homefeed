@@ -90,7 +90,7 @@ export function App() {
     setMessage("Initializing workspace...");
 
     try {
-      const response = (await bridge()) as WorkspaceResult;
+      const response = (await bridge.InitializeWorkspace()) as WorkspaceResult;
       setResult(response);
       setMessage("Workspace initialized.");
     } catch (error) {
@@ -121,7 +121,7 @@ export function App() {
     setImportMessage("Importing folder...");
 
     try {
-      const response = (await bridge(
+      const response = (await bridge.ImportFolder(
         sourcePath().trim(),
         feedSlug().trim(),
       )) as ImportResult;
@@ -155,7 +155,7 @@ export function App() {
     setNoteMessage("Creating note...");
 
     try {
-      const response = (await bridge(
+      const response = (await bridge.CreateNotePost(
         noteFeedSlug().trim(),
         noteTitle().trim(),
         noteBody().trim(),
