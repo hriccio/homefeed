@@ -153,9 +153,7 @@ export function App() {
   onMount(() => {
     refreshBridgeState();
     const timer = window.setInterval(refreshBridgeState, 100);
-    window.setTimeout(() => {
-      clearInterval(timer);
-    }, 5000);
+    return () => window.clearInterval(timer);
   });
 
   return (
@@ -185,10 +183,6 @@ export function App() {
           {(value) => (
             <pre>{JSON.stringify(value(), null, 2)}</pre>
           )}
-        </Show>
-
-        <Show when={!bridgeReady()}>
-          <p class="status">Waiting for the Wails bridge...</p>
         </Show>
       </section>
 

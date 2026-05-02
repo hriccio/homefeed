@@ -8,21 +8,21 @@
 
 - Date: 2026-05-01
 - Source: live desktop smoke test follow-up from the user
-- Symptom: the UI briefly showed a message like `no bridge available`
+- Symptom: the UI showed a transient `no bridge available` style message and a
+  waiting state below the initialization button
+- Symptom: disabled buttons used an hourglass-style hover cue
 
 ## Observed Result
 
-The note-post workflow itself appeared to work, but the SolidJS shell could
-report that the Wails bridge was unavailable while the window was still
-attaching. That made the startup state noisier than necessary.
+The note-post workflow itself still appeared to work, but the shell made the
+startup state look noisier than necessary.
 
 ## Interpretation
 
-This looks like a bridge-readiness race in the frontend rather than a failure of
-the note-post use case.
+The issue is a bridge-readiness/UI-state presentation problem, not a broken
+note-post use case.
 
 ## Next Loop Impact
 
-The frontend should wait for the Wails bindings before enabling the workspace,
-import, and note actions so the user sees a stable ready state instead of a
-transient bridge warning.
+The shell should remain quiet while the Wails bridge is attaching, and disabled
+controls should read as unavailable rather than in-progress.

@@ -130,7 +130,7 @@ button {
 
 button:disabled {
   opacity: 0.75;
-  cursor: progress;
+  cursor: not-allowed;
 }
 
 .status {
