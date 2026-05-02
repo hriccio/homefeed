@@ -1,4 +1,4 @@
-import { createSignal, onMount, Show } from "solid-js";
+import { createSignal, Show } from "solid-js";
 
 type WorkspaceResult = {
   layout?: {
@@ -29,10 +29,6 @@ type NoteResult = {
   path?: string;
 };
 
-function hasBridge() {
-  return Boolean(window.go?.main?.App?.InitializeWorkspace);
-}
-
 export function App() {
   const [message, setMessage] = createSignal("Ready to initialize Homefeed.");
   const [busy, setBusy] = createSignal(false);
@@ -54,11 +50,6 @@ export function App() {
   );
   const [noteBusy, setNoteBusy] = createSignal(false);
   const [noteResult, setNoteResult] = createSignal<NoteResult | null>(null);
-  const [bridgeReady, setBridgeReady] = createSignal(false);
-
-  const refreshBridgeState = () => {
-    setBridgeReady(hasBridge());
-  };
 
   const initializeWorkspace = async () => {
     const bridge = window.go?.main?.App?.InitializeWorkspace;
@@ -150,12 +141,6 @@ export function App() {
     }
   };
 
-  onMount(() => {
-    refreshBridgeState();
-    const timer = window.setInterval(refreshBridgeState, 100);
-    return () => window.clearInterval(timer);
-  });
-
   return (
     <main class="shell">
       <section class="panel hero">
@@ -169,11 +154,7 @@ export function App() {
       </section>
 
       <section class="panel control">
-        <button
-          type="button"
-          onClick={initializeWorkspace}
-          disabled={busy() || !bridgeReady()}
-        >
+        <button type="button" onClick={initializeWorkspace} disabled={busy()}>
           {busy() ? "Initializing..." : "Initialize workspace"}
         </button>
 
@@ -208,11 +189,7 @@ export function App() {
           />
         </label>
 
-        <button
-          type="button"
-          onClick={importFolder}
-          disabled={importBusy() || !bridgeReady()}
-        >
+        <button type="button" onClick={importFolder} disabled={importBusy()}>
           {importBusy() ? "Importing..." : "Import folder"}
         </button>
 
@@ -257,11 +234,7 @@ export function App() {
           />
         </label>
 
-        <button
-          type="button"
-          onClick={createNotePost}
-          disabled={noteBusy() || !bridgeReady()}
-        >
+        <button type="button" onClick={createNotePost} disabled={noteBusy()}>
           {noteBusy() ? "Creating..." : "Create note"}
         </button>
 

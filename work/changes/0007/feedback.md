@@ -11,6 +11,8 @@
 - Symptom: the UI showed a transient `no bridge available` style message and a
   waiting state below the initialization button
 - Symptom: disabled buttons used an hourglass-style hover cue
+- Symptom: the `Initialize workspace` button could be blocked with `not
+  allowed`
 
 ## Observed Result
 
