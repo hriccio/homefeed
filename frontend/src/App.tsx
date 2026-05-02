@@ -54,6 +54,11 @@ export function App() {
   );
   const [noteBusy, setNoteBusy] = createSignal(false);
   const [noteResult, setNoteResult] = createSignal<NoteResult | null>(null);
+  const [bridgeReady, setBridgeReady] = createSignal(false);
+
+  const refreshBridgeState = () => {
+    setBridgeReady(hasBridge());
+  };
 
   const initializeWorkspace = async () => {
     const bridge = window.go?.main?.App?.InitializeWorkspace;
@@ -146,9 +151,11 @@ export function App() {
   };
 
   onMount(() => {
-    if (!hasBridge()) {
-      setMessage("Desktop bridge not yet attached.");
-    }
+    refreshBridgeState();
+    const timer = window.setInterval(refreshBridgeState, 100);
+    window.setTimeout(() => {
+      clearInterval(timer);
+    }, 5000);
   });
 
   return (
@@ -164,7 +171,11 @@ export function App() {
       </section>
 
       <section class="panel control">
-        <button type="button" onClick={initializeWorkspace} disabled={busy()}>
+        <button
+          type="button"
+          onClick={initializeWorkspace}
+          disabled={busy() || !bridgeReady()}
+        >
           {busy() ? "Initializing..." : "Initialize workspace"}
         </button>
 
@@ -174,6 +185,10 @@ export function App() {
           {(value) => (
             <pre>{JSON.stringify(value(), null, 2)}</pre>
           )}
+        </Show>
+
+        <Show when={!bridgeReady()}>
+          <p class="status">Waiting for the Wails bridge...</p>
         </Show>
       </section>
 
@@ -199,7 +214,11 @@ export function App() {
           />
         </label>
 
-        <button type="button" onClick={importFolder} disabled={importBusy()}>
+        <button
+          type="button"
+          onClick={importFolder}
+          disabled={importBusy() || !bridgeReady()}
+        >
           {importBusy() ? "Importing..." : "Import folder"}
         </button>
 
@@ -244,7 +263,11 @@ export function App() {
           />
         </label>
 
-        <button type="button" onClick={createNotePost} disabled={noteBusy()}>
+        <button
+          type="button"
+          onClick={createNotePost}
+          disabled={noteBusy() || !bridgeReady()}
+        >
           {noteBusy() ? "Creating..." : "Create note"}
         </button>
 
