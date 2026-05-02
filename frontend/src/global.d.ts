@@ -3,7 +3,7 @@
 declare global {
   interface Window {
     go?: {
-      main?: {
+      desktop?: {
         App?: {
           InitializeWorkspace: () => Promise<unknown>;
           ImportFolder: (

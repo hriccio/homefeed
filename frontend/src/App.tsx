@@ -40,7 +40,7 @@ type BridgeApp = {
 };
 
 function getBridgeApp() {
-  return window.go?.main?.App as BridgeApp | undefined;
+  return window.go?.desktop?.App as BridgeApp | undefined;
 }
 
 async function waitForBridgeApp(timeoutMs = 3000): Promise<BridgeApp | null> {
