@@ -29,6 +29,34 @@ type NoteResult = {
   path?: string;
 };
 
+type BridgeApp = {
+  InitializeWorkspace: () => Promise<WorkspaceResult>;
+  ImportFolder: (sourcePath: string, feedSlug: string) => Promise<ImportResult>;
+  CreateNotePost: (
+    feedSlug: string,
+    title: string,
+    body: string,
+  ) => Promise<NoteResult>;
+};
+
+function getBridgeApp() {
+  return window.go?.main?.App as BridgeApp | undefined;
+}
+
+async function waitForBridgeApp(timeoutMs = 3000): Promise<BridgeApp | null> {
+  const startedAt = Date.now();
+
+  while (Date.now() - startedAt < timeoutMs) {
+    const bridge = getBridgeApp();
+    if (bridge) {
+      return bridge;
+    }
+    await new Promise((resolve) => window.setTimeout(resolve, 50));
+  }
+
+  return null;
+}
+
 export function App() {
   const [message, setMessage] = createSignal("Ready to initialize Homefeed.");
   const [busy, setBusy] = createSignal(false);
@@ -52,9 +80,9 @@ export function App() {
   const [noteResult, setNoteResult] = createSignal<NoteResult | null>(null);
 
   const initializeWorkspace = async () => {
-    const bridge = window.go?.main?.App?.InitializeWorkspace;
+    const bridge = await waitForBridgeApp();
     if (!bridge) {
-      setMessage("Wails bridge is unavailable in this runtime.");
+      setMessage("Wails bridge is still attaching. Try again in a moment.");
       return;
     }
 
@@ -73,9 +101,9 @@ export function App() {
   };
 
   const importFolder = async () => {
-    const bridge = window.go?.main?.App?.ImportFolder;
+    const bridge = await waitForBridgeApp();
     if (!bridge) {
-      setImportMessage("Import bridge is unavailable in this runtime.");
+      setImportMessage("Import bridge is still attaching. Try again.");
       return;
     }
 
@@ -107,9 +135,9 @@ export function App() {
   };
 
   const createNotePost = async () => {
-    const bridge = window.go?.main?.App?.CreateNotePost;
+    const bridge = await waitForBridgeApp();
     if (!bridge) {
-      setNoteMessage("Note bridge is unavailable in this runtime.");
+      setNoteMessage("Note bridge is still attaching. Try again.");
       return;
     }
 

@@ -13,6 +13,8 @@
 - Symptom: disabled buttons used an hourglass-style hover cue
 - Symptom: the `Initialize workspace` button could be blocked with `not
   allowed`
+- Symptom: clicking `Initialize workspace` immediately after startup could
+  still report that the Wails bridge was unavailable
 
 ## Observed Result
 
@@ -21,10 +23,11 @@ startup state look noisier than necessary.
 
 ## Interpretation
 
-The issue is a bridge-readiness/UI-state presentation problem, not a broken
-note-post use case.
+The issue is a bridge-attachment race in the click path, not a broken note-post
+use case.
 
 ## Next Loop Impact
 
-The shell should remain quiet while the Wails bridge is attaching, and disabled
-controls should read as unavailable rather than in-progress.
+The shell should remain quiet while the Wails bridge is attaching, and actions
+should wait briefly before failing so the user can click through startup
+without hitting a false unavailable message.
